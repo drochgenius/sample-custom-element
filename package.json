@@ -1,0 +1,53 @@
+{
+    "name": "@waggle/item-preview",
+    "private": true,
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "browser-sync . -w",
+        "clean": "rm -rf node_modules dist package-lock.json",
+        "lint": "eslint 'src/**/*.ts' --fix; prettier 'src/**/*.ts' --write",
+        "build": "tsc -p src",
+        "watch": "tsc -p src; webpack -w"
+    },
+    "dependencies": {
+        "lit-element": "latest",
+        "lit-html": "latest"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "latest",
+        "@typescript-eslint/parser": "latest",
+        "browser-sync": "latest",
+        "eslint": "latest",
+        "prettier": "latest",
+        "ts-loader": "latest",
+        "typescript": "latest",
+        "webpack": "latest",
+        "webpack-cli": "latest"
+    },
+    "eslintConfig": {
+        "parser": "@typescript-eslint/parser",
+        "plugins": [
+            "@typescript-eslint"
+        ],
+        "extends": [
+            "plugin:@typescript-eslint/recommended"
+        ],
+        "rules": {
+            "@typescript-eslint/no-explicit-any": "off"
+        }
+    },
+    "prettier": {
+        "endOfLine": "lf",
+        "printWidth": 160,
+        "singleQuote": true,
+        "semi": true,
+        "trailingComma": "es5",
+        "tabWidth": 4,
+        "useTabs": false
+    }
+}

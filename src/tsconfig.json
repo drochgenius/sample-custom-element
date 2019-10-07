@@ -1,0 +1,26 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "baseUrl": "../",
+        "declaration": true,
+        "rootDir": "./",
+        "outDir": "../dist",
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": false,
+        "removeComments": false,
+        "skipLibCheck": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "pretty": true,
+        "lib": ["esnext", "dom"]
+    },
+    "include": ["../src/**/*.ts"],
+    "exclude": ["node_modules"]
+}

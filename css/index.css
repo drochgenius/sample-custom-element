@@ -1,0 +1,9 @@
+/* put your custom css here */
+* {
+    font-family: roboto, arial, sans-serif;
+}
+
+.mechanical-prompt {
+    font-style: italic;
+    color: rgba(100, 100, 100, 0.75);
+}
