@@ -3,7 +3,14 @@
     font-family: roboto, arial, sans-serif;
 }
 
-.mechanical-prompt {
-    font-style: italic;
-    color: rgba(100, 100, 100, 0.75);
+h3 {
+    color: darkcyan;
+    background-color: lightblue;
+    text-align: center;
+    margin: 0;
+    padding: 1rem 0;
+}
+
+quote-of-the-day {
+    margin-top: 1rem;
 }
