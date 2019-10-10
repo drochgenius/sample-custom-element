@@ -12,6 +12,10 @@ export class QuoteOfTheDay extends LitElement {
 
     public static get styles(): CSSResult {
         return css`
+            :host {
+                display: inline-block;
+            }
+
             div {
                 padding: 1em;
                 border: 1px solid red;
