@@ -1,8 +1,8 @@
 {
-    "name": "@waggle/item-preview",
+    "name": "quote-of-the-day",
     "private": true,
     "version": "1.0.0",
-    "description": "",
+    "description": "Sample custom element for demo purpose",
     "main": "index.js",
     "scripts": {
         "start": "browser-sync . -w",
@@ -16,7 +16,7 @@
         "lit-html": "latest"
     },
     "keywords": [],
-    "author": "",
+    "author": "Dominique Rochefort",
     "license": "ISC",
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "latest",
