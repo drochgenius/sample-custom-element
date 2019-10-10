@@ -2,8 +2,8 @@ import { LitElement, css, CSSResult, html, property, TemplateResult } from 'lit-
 import { until } from 'lit-html/directives/until';
 
 /**
- * `<my-component>`
- * @demo ./demo/index.html
+ * `<quote-of-the-day>`
+ * @demo ./index.html
  */
 export class QuoteOfTheDay extends LitElement {
     @property() name = 'World';
