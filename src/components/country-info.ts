@@ -24,17 +24,19 @@ export class CountryInformations extends LitElement {
 
     @property() private info: CountryInfo;
     private countryData: CountryData;
+    private currentSelection: SVGPathElement;
 
     public static get styles(): CSSResult {
         return css`
             :host {
-                display: block;
+                display: grid;
+                grid-template-columns: 9fr 3fr;
+                grid-gap: 1rem;
             }
-            textarea {
-                width: 100%;
-                height: 200px;
+            aside {
+                background-color: white;
+                border-radius: 0.25rem;
             }
-
             figure {
                 display: grid;
                 grid-template-columns: auto 100px;
@@ -47,6 +49,7 @@ export class CountryInformations extends LitElement {
 
             img.flag {
                 width: 100px;
+                border: 1px solid rgb(200, 200, 200);
             }
         `;
     }
@@ -77,7 +80,7 @@ export class CountryInformations extends LitElement {
 
     private onSVGLoaded(): void {
         document.querySelectorAll('svg [id]').forEach((el: SVGPathElement) => {
-            el.addEventListener('click', this.showCountryInfo.bind(this, el.id));
+            el.addEventListener('click', this.showCountryInfo.bind(this, el, el.id));
         });
     }
 
@@ -95,19 +98,22 @@ export class CountryInformations extends LitElement {
                 countryData[info.code] = info;
             });
             this.countryData = countryData;
-            console.log('countryData', countryData);
-            return;
+        } else {
+            throw new Error('unable to load country data');
         }
-
-        throw new Error('unable to load country data');
     }
 
-    private async showCountryInfo(code: string): Promise<void> {
+    private showCountryInfo(el: SVGPathElement, code: string): void {
         console.log('show country info', code);
+        if (this.currentSelection) {
+            this.currentSelection.classList.remove('selected');
+        }
+        el.classList.add('selected');
+        this.currentSelection = el;
         this.info = this.getCountryInfo(code);
     }
 
-    public getCountryInfo(code: string): CountryInfo {
+    private getCountryInfo(code: string): CountryInfo {
         if (this.countryData && this.countryData[code]) {
             return this.countryData[code];
         }
