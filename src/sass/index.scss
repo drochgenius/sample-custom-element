@@ -1,0 +1,30 @@
+/* put your custom css here */
+body {
+    font-family: roboto, arial, sans-serif;
+    background-color: #0077be;
+}
+
+svg-object {
+    margin: 1rem 20%;
+    svg {
+        #cn {
+            fill: #df2407;
+        }
+
+        #us {
+            fill: #3a386e;
+        }
+
+        g {
+            fill: #477200;
+            & > [id]:hover {
+                fill: #b5e567;
+                cursor: pointer;
+            }
+        }
+
+        path {
+            stroke: #b5e567;
+        }
+    }
+}

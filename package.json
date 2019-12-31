@@ -5,10 +5,12 @@
     "description": "Sample custom element for demo purpose",
     "main": "index.js",
     "scripts": {
-        "start": "browser-sync . -w",
+        "start": "browser-sync . --ss static --https -w",
         "clean": "rm -rf node_modules dist package-lock.json",
         "lint": "eslint 'src/**/*.ts' --fix; prettier 'src/**/*.ts' --write",
         "build": "tsc -p src",
+        "sass": "node-sass src/sass/*.scss -o dist/css",
+        "sass-watch": "node-sass src/sass/*.scss -o dist/css -w",
         "watch": "tsc -p src; webpack -w"
     },
     "dependencies": {
@@ -23,6 +25,7 @@
         "@typescript-eslint/parser": "latest",
         "browser-sync": "latest",
         "eslint": "latest",
+        "node-sass": "^4.13.0",
         "prettier": "latest",
         "ts-loader": "latest",
         "typescript": "latest",
@@ -36,7 +39,12 @@
         ],
         "extends": [
             "plugin:@typescript-eslint/recommended"
-        ]
+        ],
+        "rules": {
+            "@typescript-eslint/no-explicit-any": [
+                false
+            ]
+        }
     },
     "prettier": {
         "endOfLine": "lf",
