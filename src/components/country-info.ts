@@ -3,14 +3,33 @@ import { LitElement, css, CSSResult, html, property, TemplateResult } from 'lit-
 // import { until } from 'lit-html/directives/until';
 // import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 
+export interface CountryLanguage {
+    iso639_1: string;
+    iso639_2: string;
+    name: string;
+    nativeName: string;
+}
+
+export interface CountryCurrency {
+    code: string;
+    name: string;
+    symbol: string;
+}
+
 export interface CountryInfo {
     code: string;
     alpha2Code: string;
     alpha3Code: string;
     name: string; // country name
+    nativeName: string; // country name in own country language
     population: string; // country population
     capital: string; // capital city
     demonym: string; // how to you call people from this country
+    region: string;
+    subregion: string;
+    timezones: string[];
+    languages: CountryLanguage[];
+    area: string;
 }
 
 type CountryData = { [code: string]: CountryInfo };
@@ -36,15 +55,39 @@ export class CountryInformations extends LitElement {
             aside {
                 background-color: white;
                 border-radius: 0.25rem;
+                overflow: hidden;
+                margin: 0 1rem;
             }
             figure {
+                background-color: lightskyblue;
+                margin: 0;
+                padding: 1rem;
                 display: grid;
                 grid-template-columns: auto 100px;
+            }
+
+            figcaption > h3 {
+                margin: 0;
+            }
+
+            figcaption > p {
+                margin: 0;
+                color: rgb(0, 0, 200);
             }
 
             section {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
+                align-content: space-around;
+            }
+
+            section > * {
+                padding: 0.25rem 1rem;
+                border-top: 1px solid rgb(200, 200, 200);
+            }
+
+            label {
+                font-weight: bold;
             }
 
             img.flag {
@@ -68,10 +111,26 @@ export class CountryInformations extends LitElement {
                 ? html`
                       <aside>
                           <figure>
-                              <figcaption>${info.name}</figcaption>
+                              <figcaption>
+                                  <h3>${info.name}</h3>
+                                  <p>${info.nativeName}</p>
+                              </figcaption>
                               <img class="flag" src="http://flagpedia.net/data/flags/w1160/${info.code}.webp" />
                           </figure>
-                          <section><label>Capital City</label><span>${info.capital}</span></section>
+                          <section>
+                              <!-- Continent -->
+                              <label>Continent</label><span>${info.region}</span>
+                              <!-- Region -->
+                              <label>Region</label><span>${info.subregion}</span>
+                              <!-- Country Population -->
+                              <label>Population (million)</label>
+                              <span>${new Intl.NumberFormat('en-US', { maximumSignificantDigits: 3 }).format(parseInt(info.population) / 1e6)} million</span>
+                              <label>Capital City</label><span>${info.capital}</span>
+                              <!-- Capital City -->
+                              <label>Capital City</label><span>${info.capital}</span>
+                              <!-- Timezone -->
+                              <label>Timezones</label><span>${info.timezones.join(', ')}</span>
+                          </section>
                       </aside>
                   `
                 : html``}
