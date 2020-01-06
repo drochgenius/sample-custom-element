@@ -38,10 +38,10 @@ type CountryData = { [code: string]: CountryInfo };
  * `<quote-of-the-day>`
  * @demo ./index.html
  */
-export class CountryInformations extends LitElement {
-    @property() src: string;
-
+export class CountryCard extends LitElement {
+    @property() code: string;
     @property() private info: CountryInfo;
+    @property() private countryMap: SVGPathElement;
     private countryData: CountryData;
     private currentSelection: SVGPathElement;
 
@@ -103,7 +103,7 @@ export class CountryInformations extends LitElement {
     }
 
     protected render(): TemplateResult {
-        const { info } = this;
+        const { countryMap, info } = this;
 
         return html`
             <slot @svg-ready="${(): void => this.onSVGLoaded()}"></slot>
@@ -119,18 +119,26 @@ export class CountryInformations extends LitElement {
                           </figure>
                           <section>
                               <!-- Continent -->
-                              <label>Continent</label><span>${info.region}</span>
+                              <label>Region</label><span>${info.region}</span>
                               <!-- Region -->
-                              <label>Region</label><span>${info.subregion}</span>
+                              <label>Sub-Region</label><span>${info.subregion}</span>
                               <!-- Country Population -->
-                              <label>Population (million)</label>
+                              <label>Population</label>
                               <span>${new Intl.NumberFormat('en-US', { maximumSignificantDigits: 3 }).format(parseInt(info.population) / 1e6)} million</span>
-                              <label>Capital City</label><span>${info.capital}</span>
+                              <!-- People -->
+                              <label>People</label><span>${info.demonym}</span>
+                              <!-- Languages -->
+                              <label>Languages</label><span>${info.languages.map((lang: CountryLanguage) => lang.name).join(', ')}</span>
                               <!-- Capital City -->
                               <label>Capital City</label><span>${info.capital}</span>
                               <!-- Timezone -->
                               <label>Timezones</label><span>${info.timezones.join(', ')}</span>
                           </section>
+                          <footer>
+                              <svg id="country-map">
+                                  ${countryMap}
+                              </svg>
+                          </footer>
                       </aside>
                   `
                 : html``}
@@ -157,6 +165,10 @@ export class CountryInformations extends LitElement {
                 countryData[info.code] = info;
             });
             this.countryData = countryData;
+
+            if (this.code) {
+                this.info = this.getCountryInfo(this.code);
+            }
         } else {
             throw new Error('unable to load country data');
         }
@@ -170,15 +182,15 @@ export class CountryInformations extends LitElement {
         el.classList.add('selected');
         this.currentSelection = el;
         this.info = this.getCountryInfo(code);
+        this.countryMap = el.cloneNode(true) as any;
     }
 
     private getCountryInfo(code: string): CountryInfo {
         if (this.countryData && this.countryData[code]) {
             return this.countryData[code];
         }
-
-        throw new Error(`unable to resolve infos for country code: ${code}`);
+        return null;
     }
 }
 
-customElements.define('country-info', CountryInformations);
+customElements.define('country-card', CountryCard);
