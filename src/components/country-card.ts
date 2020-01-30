@@ -43,7 +43,6 @@ export class CountryCard extends LitElement {
     @property() private info: CountryInfo;
     @property() private countryMap: SVGPathElement;
     private countryData: CountryData;
-    private currentSelection: SVGPathElement;
 
     public static get styles(): CSSResult {
         return css`
@@ -57,6 +56,7 @@ export class CountryCard extends LitElement {
                 border-radius: 0.25rem;
                 overflow: hidden;
                 margin: 0 1rem;
+                background-color: rgb(240, 240, 240);
             }
             figure {
                 background-color: lightskyblue;
@@ -106,7 +106,7 @@ export class CountryCard extends LitElement {
         const { countryMap, info } = this;
 
         return html`
-            <slot @svg-ready="${(): void => this.onSVGLoaded()}"></slot>
+            <slot></slot>
             ${info && info.code
                 ? html`
                       <aside>
@@ -131,8 +131,6 @@ export class CountryCard extends LitElement {
                               <label>Languages</label><span>${info.languages.map((lang: CountryLanguage) => lang.name).join(', ')}</span>
                               <!-- Capital City -->
                               <label>Capital City</label><span>${info.capital}</span>
-                              <!-- Timezone -->
-                              <label>Timezones</label><span>${info.timezones.join(', ')}</span>
                           </section>
                           <footer>
                               <svg id="country-map">
@@ -143,12 +141,6 @@ export class CountryCard extends LitElement {
                   `
                 : html``}
         `;
-    }
-
-    private onSVGLoaded(): void {
-        document.querySelectorAll('svg [id]').forEach((el: SVGPathElement) => {
-            el.addEventListener('click', this.showCountryInfo.bind(this, el, el.id));
-        });
     }
 
     private async loadCountryData(): Promise<void> {
@@ -172,17 +164,6 @@ export class CountryCard extends LitElement {
         } else {
             throw new Error('unable to load country data');
         }
-    }
-
-    private showCountryInfo(el: SVGPathElement, code: string): void {
-        console.log('show country info', code);
-        if (this.currentSelection) {
-            this.currentSelection.classList.remove('selected');
-        }
-        el.classList.add('selected');
-        this.currentSelection = el;
-        this.info = this.getCountryInfo(code);
-        this.countryMap = el.cloneNode(true) as any;
     }
 
     private getCountryInfo(code: string): CountryInfo {

@@ -16,7 +16,6 @@ export const enum LoadingState {
  */
 export class SVGObject extends LitElement {
     @property() src: string;
-    @property({ attribute: 'aspect-ratio', type: Number }) aspectRatio = 1;
     @property({ type: String, reflect: true }) state = LoadingState.pending;
 
     private svgData: SVGTemplateResult | Promise<SVGTemplateResult>;
