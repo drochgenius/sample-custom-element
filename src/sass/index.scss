@@ -3,24 +3,3 @@ body {
     font-family: roboto, arial, sans-serif;
     background-color: #0077be;
 }
-
-svg-object {
-    svg {
-        g {
-            fill: #477200;
-            & > [id] {
-                &.selected {
-                    fill: #ce1226;
-                }
-                &:hover {
-                    fill: #b5e567;
-                    cursor: pointer;
-                }
-            }
-        }
-
-        path {
-            stroke: #b5e567;
-        }
-    }
-}
