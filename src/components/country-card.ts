@@ -1,7 +1,4 @@
 import { LitElement, css, CSSResult, html, property, TemplateResult } from 'lit-element';
-// import { render, svg, SVGTemplateResult } from 'lit-html';
-// import { until } from 'lit-html/directives/until';
-// import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 
 export interface CountryLanguage {
     iso639_1: string;
