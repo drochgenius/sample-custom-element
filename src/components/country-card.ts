@@ -103,7 +103,7 @@ export class CountryCard extends LitElement {
         const { countryMap, info } = this;
 
         return html`
-            <slot></slot>
+            <slot @svg-ready="${(evt: CustomEvent): void => this.onSVGLoaded(evt)}"></slot>
             ${info && info.code
                 ? html`
                       <aside>
@@ -138,6 +138,10 @@ export class CountryCard extends LitElement {
                   `
                 : html``}
         `;
+    }
+
+    private onSVGLoaded(evt: CustomEvent): void {
+        console.log('SVG Loaded', evt);
     }
 
     private async loadCountryData(): Promise<void> {
