@@ -5,8 +5,10 @@
 ```bash
 # install dependencies
 npm install
-# build and watch for code changes
+# build typescript and watch for code changes
 npm run watch
+# build sass and watch for code change
+npm run sass-watch
 # in another terminal, launch the browser
 npm start
 ```
@@ -18,4 +20,8 @@ npm start
 npm run lint
 # prepare a clean install
 npm run clean
+# build code
+npm run build
+# build sass
+npm run sass
 ```
