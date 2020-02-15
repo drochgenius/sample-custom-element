@@ -1,35 +1,5 @@
 import { LitElement, css, CSSResult, html, property, TemplateResult } from 'lit-element';
-
-export interface CountryLanguage {
-    iso639_1: string;
-    iso639_2: string;
-    name: string;
-    nativeName: string;
-}
-
-export interface CountryCurrency {
-    code: string;
-    name: string;
-    symbol: string;
-}
-
-export interface CountryInfo {
-    code: string;
-    alpha2Code: string;
-    alpha3Code: string;
-    name: string; // country name
-    nativeName: string; // country name in own country language
-    population: string; // country population
-    capital: string; // capital city
-    demonym: string; // how to you call people from this country
-    region: string;
-    subregion: string;
-    timezones: string[];
-    languages: CountryLanguage[];
-    area: string;
-}
-
-type CountryData = { [code: string]: CountryInfo };
+import { CountryData, CountryInfo, CountryLanguage } from '../typings';
 
 /**
  * `<quote-of-the-day>`
@@ -37,9 +7,9 @@ type CountryData = { [code: string]: CountryInfo };
  */
 export class CountryCard extends LitElement {
     @property() code: string;
-    @property() private info: CountryInfo;
     @property() private countryMap: SVGPathElement;
-    private countryData: CountryData;
+    @property() private info: CountryInfo;
+    @property() private countryData: CountryData;
 
     public static get styles(): CSSResult {
         return css`
@@ -99,6 +69,13 @@ export class CountryCard extends LitElement {
         this.loadCountryData();
     }
 
+    protected shouldUpdate(changedProperties: Map<string, any>): boolean {
+        if (changedProperties.has('code')) {
+            this.computeCountryInfo();
+        }
+        return true;
+    }
+
     protected render(): TemplateResult {
         const { countryMap, info } = this;
 
@@ -141,7 +118,7 @@ export class CountryCard extends LitElement {
     }
 
     private onSVGLoaded(evt: CustomEvent): void {
-        console.log('SVG Loaded', evt);
+        console.log('SVG Loaded', evt.target);
     }
 
     private async loadCountryData(): Promise<void> {
@@ -158,20 +135,16 @@ export class CountryCard extends LitElement {
                 countryData[info.code] = info;
             });
             this.countryData = countryData;
-
-            if (this.code) {
-                this.info = this.getCountryInfo(this.code);
-            }
+            this.computeCountryInfo();
         } else {
             throw new Error('unable to load country data');
         }
     }
 
-    private getCountryInfo(code: string): CountryInfo {
-        if (this.countryData && this.countryData[code]) {
-            return this.countryData[code];
+    private computeCountryInfo(): void {
+        if (this.code && this.countryData && this.countryData[this.code]) {
+            this.info = this.countryData[this.code];
         }
-        return null;
     }
 }
 

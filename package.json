@@ -42,7 +42,7 @@
         ],
         "rules": {
             "@typescript-eslint/no-explicit-any": [
-                false
+                0
             ]
         }
     },
