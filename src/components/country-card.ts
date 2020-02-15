@@ -37,9 +37,9 @@ type CountryData = { [code: string]: CountryInfo };
  */
 export class CountryCard extends LitElement {
     @property() code: string;
-    @property() private info: CountryInfo;
     @property() private countryMap: SVGPathElement;
-    private countryData: CountryData;
+    @property() private info: CountryInfo;
+    @property() private countryData: CountryData;
 
     public static get styles(): CSSResult {
         return css`
@@ -99,6 +99,13 @@ export class CountryCard extends LitElement {
         this.loadCountryData();
     }
 
+    protected shouldUpdate(changedProperties: Map<string, any>): boolean {
+        if (changedProperties.has('code')) {
+            this.computeCountryInfo();
+        }
+        return true;
+    }
+
     protected render(): TemplateResult {
         const { countryMap, info } = this;
 
@@ -141,7 +148,7 @@ export class CountryCard extends LitElement {
     }
 
     private onSVGLoaded(evt: CustomEvent): void {
-        console.log('SVG Loaded', evt);
+        console.log('SVG Loaded', evt.target);
     }
 
     private async loadCountryData(): Promise<void> {
@@ -158,20 +165,16 @@ export class CountryCard extends LitElement {
                 countryData[info.code] = info;
             });
             this.countryData = countryData;
-
-            if (this.code) {
-                this.info = this.getCountryInfo(this.code);
-            }
+            this.computeCountryInfo();
         } else {
             throw new Error('unable to load country data');
         }
     }
 
-    private getCountryInfo(code: string): CountryInfo {
-        if (this.countryData && this.countryData[code]) {
-            return this.countryData[code];
+    private computeCountryInfo(): void {
+        if (this.code && this.countryData && this.countryData[this.code]) {
+            this.info = this.countryData[this.code];
         }
-        return null;
     }
 }
 
