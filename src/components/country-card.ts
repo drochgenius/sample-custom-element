@@ -1,4 +1,4 @@
-import { LitElement, css, CSSResult, html, property, TemplateResult } from 'lit-element';
+import { LitElement, css, CSSResult, html, property, TemplateResult, internalProperty } from 'lit-element';
 import { CountryData, CountryInfo, CountryLanguage } from '../typings';
 
 /**
@@ -7,9 +7,10 @@ import { CountryData, CountryInfo, CountryLanguage } from '../typings';
  */
 export class CountryCard extends LitElement {
     @property() code: string;
-    @property() private countryMap: SVGPathElement;
-    @property() private info: CountryInfo;
-    @property() private countryData: CountryData;
+
+    @internalProperty() private countryMap: SVGPathElement;
+    @internalProperty() private info: CountryInfo;
+    @internalProperty() private countryData: CountryData;
 
     public static get styles(): CSSResult {
         return css`
@@ -107,9 +108,7 @@ export class CountryCard extends LitElement {
                               <label>Capital City</label><span>${info.capital}</span>
                           </section>
                           <footer>
-                              <svg id="country-map">
-                                  ${countryMap}
-                              </svg>
+                              <svg id="country-map">${countryMap}</svg>
                           </footer>
                       </aside>
                   `
