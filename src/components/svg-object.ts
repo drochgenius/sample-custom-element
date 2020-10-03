@@ -38,21 +38,8 @@ export class SVGObject extends LitElement {
     }
 
     protected render(): TemplateResult {
-        render(
-            html`
-                ${until(
-                    this.getSVG(),
-                    html`
-                        <div class="loader"></div>
-                    `
-                )}
-            `,
-            this
-        );
-
-        return html`
-            <slot></slot>
-        `;
+        render(html`${until(this.getSVG(), html`<div class="loader"></div>`)}`, this);
+        return html`<slot></slot>`;
     }
 
     private async getSVG(): Promise<SVGTemplateResult> {
