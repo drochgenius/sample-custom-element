@@ -70,7 +70,7 @@ export class CountryCard extends LitElement {
         this.loadCountryData();
     }
 
-    protected shouldUpdate(changedProperties: Map<string, any>): boolean {
+    protected shouldUpdate(changedProperties: Map<string, unknown>): boolean {
         if (changedProperties.has('code')) {
             this.computeCountryInfo();
         }
