@@ -10,8 +10,9 @@
         "lint": "eslint 'src/**/*.ts' --fix; prettier 'src/**/*.ts' --write",
         "build": "tsc -p src",
         "sass": "node-sass src/sass/*.scss -o dist/css",
-        "sass-watch": "npm run sass; npm run sass -- -w",
-        "watch": "tsc -p src -w"
+        "watch:sass": "npm run sass; npm run sass -- -w",
+        "watch:build": "tsc -p src -w",
+        "watch": "npm-run-all -p watch:*"
     },
     "dependencies": {
         "lit-element": "latest",
@@ -26,6 +27,7 @@
         "es-dev-server": "latest",
         "eslint": "latest",
         "node-sass": "latest",
+        "npm-run-all": "latest",
         "prettier": "latest",
         "ts-loader": "latest",
         "typescript": "latest"

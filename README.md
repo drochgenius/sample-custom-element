@@ -5,10 +5,8 @@
 ```bash
 # install dependencies
 npm install
-# build typescript and watch for code changes
+# build typescript/sass and watch for code changes
 npm run watch
-# build sass and watch for code change
-npm run sass-watch
 # in another terminal, launch the browser
 npm start
 ```
