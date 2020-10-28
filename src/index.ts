@@ -1,2 +1,1 @@
-export * from './components/svg-object';
-export * from './components/country-card';
+export * from './components/drag-drop';

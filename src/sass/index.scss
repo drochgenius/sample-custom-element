@@ -1,7 +1,95 @@
-/* put your custom css here */
-body {
-    font-family: Roboto, Arial, sans-serif;
-    h1 {
+:root {
+    --color-primary: #eb2f64;
+    --color-primary-light: #ff3366;
+    --color-primary-dark: #ba265d;
+
+    --color-grey-light-1: #faf9f9;
+    --color-grey-light-2: #f4f2f2;
+    --color-grey-light-3: #f0eeee;
+    --color-grey-light-4: #ccc;
+
+    --color-grey-dark-1: #333;
+    --color-grey-dark-2: #777;
+    --color-grey-dark-3: #999;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-family: 'Arimo', sans-serif;
+    font-size: 62.5%; // 1rem = 10px, 10px/16px = 62.5%
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+drag-drop {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 100vh;
+    font-size: 6rem;
+    section {
+        margin: auto 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .stimulus {
+            margin-bottom: 3rem;
+            img {
+                width: 6rem;
+            }
+        }
+
+        .equation {
+            letter-spacing: 2rem;
+        }
+    }
+
+    aside {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        justify-items: center;
+        align-items: center;
+
+        border: 1px dashed red;
+    }
+
+    .drag-zone,
+    .drop-zone {
+        display: inline-block;
+        width: 8rem;
+        height: 8rem;
+        border-radius: 1rem;
+        background-color: var(--color-grey-dark-4);
+        border: 2px dashed var(--color-grey-dark-3);
         text-align: center;
+    }
+
+    .drop-zone {
+        transform: translateY(25%);
+    }
+
+    .draggable-item {
+        display: inline-block;
+        width: 8rem;
+        height: 8rem;
+        border-radius: 1rem;
+        background-color: var(--color-grey-dark-4);
+        border: 2px solid var(--color-grey-dark-3);
+        text-align: center;
+        cursor: move;
     }
 }
