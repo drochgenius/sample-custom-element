@@ -1,10 +1,41 @@
-import { LitElement, css, CSSResult, html, property, TemplateResult, internalProperty } from 'lit-element';
-import { CountryData, CountryInfo, CountryLanguage } from '../typings';
+import { LitElement, css, CSSResult, html, property, TemplateResult, internalProperty, customElement } from 'lit-element';
+
+export interface CountryLanguage {
+    iso639_1: string;
+    iso639_2: string;
+    name: string;
+    nativeName: string;
+}
+
+export interface CountryCurrency {
+    code: string;
+    name: string;
+    symbol: string;
+}
+
+export interface CountryInfo {
+    code: string;
+    alpha2Code: string;
+    alpha3Code: string;
+    name: string; // country name
+    nativeName: string; // country name in own country language
+    population: string; // country population
+    capital: string; // capital city
+    demonym: string; // how to you call people from this country
+    region: string;
+    subregion: string;
+    timezones: string[];
+    languages: CountryLanguage[];
+    area: string;
+}
+
+export type CountryData = { [code: string]: CountryInfo };
 
 /**
  * `<quote-of-the-day>`
  * @demo ./index.html
  */
+@customElement('country-card')
 export class CountryCard extends LitElement {
     @property() code: string;
 
@@ -16,18 +47,17 @@ export class CountryCard extends LitElement {
         return css`
             :host {
                 display: grid;
-                grid-template-columns: 9fr 3fr;
-                grid-gap: 1rem;
+                grid-template-columns: 3fr 1fr;
+                gap: 1rem;
             }
             aside {
-                background-color: white;
                 border-radius: 0.25rem;
                 overflow: hidden;
                 margin: 0 1rem;
-                background-color: rgb(240, 240, 240);
+                background-color: var(--color-grey-light-3);
             }
             figure {
-                background-color: lightskyblue;
+                background-color: var(--color-primary-light, lightskyblue);
                 margin: 0;
                 padding: 1rem;
                 display: grid;
@@ -146,5 +176,3 @@ export class CountryCard extends LitElement {
         }
     }
 }
-
-customElements.define('country-card', CountryCard);

@@ -1,4 +1,4 @@
-import { LitElement, css, CSSResult, html, property, TemplateResult } from 'lit-element';
+import { LitElement, css, CSSResult, html, property, TemplateResult, customElement } from 'lit-element';
 import { render, svg, SVGTemplateResult } from 'lit-html';
 import { until } from 'lit-html/directives/until';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
@@ -10,10 +10,7 @@ export const enum LoadingState {
     error = 'error',
 }
 
-/**
- * `<quote-of-the-day>`
- * @demo ./index.html
- */
+@customElement('svg-object')
 export class SVGObject extends LitElement {
     @property() src: string;
     @property({ type: String, reflect: true }) state = LoadingState.pending;
@@ -81,5 +78,3 @@ export class SVGObject extends LitElement {
         }, 0);
     }
 }
-
-customElements.define('svg-object', SVGObject);

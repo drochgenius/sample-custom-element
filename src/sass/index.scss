@@ -1,7 +1,38 @@
-/* put your custom css here */
-body {
-    font-family: Roboto, Arial, sans-serif;
-    h1 {
-        text-align: center;
-    }
+:root {
+    --color-primary: #0323a2;
+    --color-primary-light: #a6d7fc;
+    --color-primary-dark: #021839;
+
+    --color-grey-light-1: #faf9f9;
+    --color-grey-light-2: #f4f2f2;
+    --color-grey-light-3: #f0eeee;
+    --color-grey-light-4: #ccc;
+
+    --color-grey-dark-1: #333;
+    --color-grey-dark-2: #777;
+    --color-grey-dark-3: #999;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+    color: var(--color-grey-dark-1, black);
+    font-size: 100%; // 1rem = 16px
+}
+
+h1 {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 1rem;
 }
