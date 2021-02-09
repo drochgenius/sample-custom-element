@@ -55,7 +55,10 @@ export class SVGObject extends LitElement {
 
         if (response.status === 200) {
             const data: string = await response.text();
+
+            this.state = LoadingState.ready;
             this.setReadyState();
+
             return svg`
                 ${unsafeHTML(data)}
             `;
@@ -65,16 +68,7 @@ export class SVGObject extends LitElement {
         throw new Error('could not load svg image file');
     }
 
-    private async setReadyState(): Promise<void> {
-        this.state = LoadingState.ready;
-
-        setTimeout(() => {
-            this.dispatchEvent(
-                new CustomEvent('svg-ready', {
-                    bubbles: true,
-                    composed: true,
-                })
-            );
-        }, 0);
+    private setReadyState(): void {
+        setTimeout(() => this.dispatchEvent(new Event('load', { bubbles: true })), 0);
     }
 }

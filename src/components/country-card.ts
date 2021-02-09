@@ -109,7 +109,7 @@ export class CountryCard extends LitElement {
 
     protected render(): TemplateResult {
         return html`
-            <slot @svg-ready="${(evt: CustomEvent): void => this.onSVGLoaded(evt)}"></slot>
+            <slot @load="${(evt: CustomEvent): void => this.onSVGLoaded(evt)}"></slot>
             ${this.renderInfoPanel()}
         `;
     }
@@ -146,9 +146,10 @@ export class CountryCard extends LitElement {
     }
 
     private onSVGLoaded(evt: CustomEvent): void {
-        console.log('SVG Loaded', evt.target);
-        (evt.target as SVGElement).querySelectorAll('[id]').forEach((el: SVGElement) => {
-            el.addEventListener('click', (evt: MouseEvent) => {
+        const svg = evt.target as SVGElement;
+
+        svg.querySelectorAll('[id]').forEach((el: SVGElement) => {
+            el.addEventListener('click', () => {
                 this.code = el.getAttribute('id');
             });
         });
