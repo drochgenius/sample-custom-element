@@ -1,4 +1,4 @@
-import { LitElement, css, CSSResult, html, property, TemplateResult, internalProperty, customElement } from 'lit-element';
+import { LitElement, css, CSSResult, html, property, TemplateResult, internalProperty } from 'lit-element';
 
 export interface CountryLanguage {
     iso639_1: string;
@@ -35,7 +35,7 @@ export type CountryData = { [code: string]: CountryInfo };
  * `<quote-of-the-day>`
  * @demo ./index.html
  */
-@customElement('country-card')
+
 export class CountryCard extends LitElement {
     @property() code: string;
 
@@ -46,11 +46,6 @@ export class CountryCard extends LitElement {
     public static get styles(): CSSResult {
         return css`
             :host {
-                display: grid;
-                grid-template-columns: 3fr 1fr;
-                gap: 1rem;
-            }
-            aside {
                 border-radius: 0.25rem;
                 overflow: hidden;
                 margin: 0 1rem;
@@ -108,51 +103,37 @@ export class CountryCard extends LitElement {
     }
 
     protected render(): TemplateResult {
-        return html`
-            <slot @load="${(evt: CustomEvent): void => this.onSVGLoaded(evt)}"></slot>
-            ${this.renderInfoPanel()}
-        `;
-    }
-
-    private renderInfoPanel(): TemplateResult {
         const { countryMap, info } = this;
 
         if (info && info.code) {
             return html`
-                <aside>
-                    <figure>
-                        <figcaption>
-                            <h3>${info.name}</h3>
-                            <p>${info.nativeName}</p>
-                        </figcaption>
-                        <img class="flag" src="http://flagpedia.net/data/flags/w1160/${info.code}.webp" />
-                    </figure>
-                    <section>
-                        <label>Region</label><span>${info.region}</span> <label>Sub-Region</label><span>${info.subregion}</span>
-                        <label>Population</label>
-                        <span>${new Intl.NumberFormat('en-US', { maximumSignificantDigits: 3 }).format(parseInt(info.population) / 1e6)} million</span>
-                        <label>People</label><span>${info.demonym}</span> <label>Languages</label
-                        ><span>${info.languages.map((lang: CountryLanguage) => lang.name).join(', ')}</span> <label>Capital City</label
-                        ><span>${info.capital}</span>
-                    </section>
-                    <footer>
-                        <svg id="country-map">${countryMap}</svg>
-                    </footer>
-                </aside>
+                <figure>
+                    <figcaption>
+                        <h3>${info.name}</h3>
+                        <p>${info.nativeName}</p>
+                    </figcaption>
+                    <img class="flag" src="http://flagpedia.net/data/flags/w1160/${info.code}.webp" />
+                </figure>
+                <section>
+                    <label>Region</label><span>${info.region}</span> <label>Sub-Region</label><span>${info.subregion}</span>
+                    <label>Population</label>
+                    <span>${new Intl.NumberFormat('en-US', { maximumSignificantDigits: 3 }).format(parseInt(info.population) / 1e6)} million</span>
+                    <label>People</label><span>${info.demonym}</span> <label>Languages</label
+                    ><span>${info.languages.map((lang: CountryLanguage) => lang.name).join(', ')}</span> <label>Capital City</label><span>${info.capital}</span>
+                </section>
+                <footer>
+                    <svg id="country-map">${countryMap}</svg>
+                </footer>
             `;
         }
 
         return html``;
     }
 
-    private onSVGLoaded(evt: CustomEvent): void {
-        const svg = evt.target as SVGElement;
-
-        svg.querySelectorAll('[id]').forEach((el: SVGElement) => {
-            el.addEventListener('click', () => {
-                this.code = el.getAttribute('id');
-            });
-        });
+    private computeCountryInfo(): void {
+        if (this.code && this.countryData && this.countryData[this.code]) {
+            this.info = this.countryData[this.code];
+        }
     }
 
     private async loadCountryData(): Promise<void> {
@@ -174,10 +155,6 @@ export class CountryCard extends LitElement {
             throw new Error('unable to load country data');
         }
     }
-
-    private computeCountryInfo(): void {
-        if (this.code && this.countryData && this.countryData[this.code]) {
-            this.info = this.countryData[this.code];
-        }
-    }
 }
+
+customElements.define('country-card', CountryCard);

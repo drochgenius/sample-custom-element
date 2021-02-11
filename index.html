@@ -3,14 +3,18 @@
         <meta charset="utf-8" />
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="dist/css/index.css" />
-        <script type="module" src="dist/index.js"></script>
+
+        <!-- import custom elements -->
+        <script type="module" src="dist/components/activity-item.js"></script>
+        <script type="module" src="dist/components/svg-object.js"></script>
+        <script type="module" src="dist/components/country-card.js"></script>
     </head>
 
     <body>
-        <h1>Explore the Countries of the World</h1>
-
-        <country-card code="br">
-            <svg-object src="/static/images/world.svg"></svg-object>
-        </country-card>
+        <activity-item>
+            <h1 class="title">Explore the Countries of the World</h1>
+            <svg-object class="world-map" src="/static/images/world.svg"></svg-object>
+            <country-card class="card" code="br"></country-card>
+        </activity-item>
     </body>
 </html>
