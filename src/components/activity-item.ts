@@ -15,6 +15,7 @@ export class ActivityItem extends LitElement {
 
         svg.querySelectorAll('g[id], path[id]').forEach((el: SVGElement) => {
             el.addEventListener('click', () => {
+                // FIXME
                 countryCard.code = 'br';
             });
         });
