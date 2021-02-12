@@ -15,8 +15,7 @@
         "watch": "npm-run-all -p watch:*"
     },
     "dependencies": {
-        "lit-element": "latest",
-        "lit-html": "latest"
+        "lit-element": "^2.0.0"
     },
     "keywords": [],
     "author": "Dominique Rochefort",
