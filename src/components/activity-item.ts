@@ -13,10 +13,10 @@ export class ActivityItem extends LitElement {
 
         const countryCard: CountryCard = this.assignedNodes.find((el: HTMLElement) => el instanceof CountryCard) as CountryCard;
 
-        svg.querySelectorAll('g[id], path[id]').forEach((el: SVGElement) => {
-            el.addEventListener('click', () => {
-                // FIXME
+        svg.querySelectorAll('g[id], path[id]').forEach((countryElement: SVGElement) => {
+            countryElement.addEventListener('click', () => {
                 countryCard.code = 'fr';
+                countryElement.classList.add('selected');
             });
         });
     }
