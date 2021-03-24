@@ -37,7 +37,7 @@ export type CountryData = { [code: string]: CountryInfo };
  */
 
 export class CountryCard extends LitElement {
-    @property() code: string;
+    @property({ reflect: true }) code: string;
 
     @internalProperty() private countryMap: SVGPathElement;
     @internalProperty() private info: CountryInfo;
