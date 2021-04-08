@@ -59,11 +59,6 @@ activity-item {
         'map    card';
 
     @media screen and (max-width: 62.5rem) {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            'title'
-            'map  '
-            'card ';
     }
 }
 
