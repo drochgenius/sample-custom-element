@@ -15,7 +15,7 @@
         "watch": "npm-run-all -p watch:*"
     },
     "dependencies": {
-        "lit-element": "latest"
+        "lit": "latest"
     },
     "keywords": [],
     "author": "Dominique Rochefort",
@@ -28,7 +28,6 @@
         "node-sass": "latest",
         "npm-run-all": "latest",
         "prettier": "latest",
-        "ts-loader": "latest",
         "typescript": "latest"
     },
     "eslintConfig": {

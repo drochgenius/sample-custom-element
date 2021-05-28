@@ -1,17 +1,18 @@
-import { LitElement, html, TemplateResult, queryAssignedNodes } from 'lit-element';
+import { LitElement, html, TemplateResult } from 'lit';
+import { customElement } from 'lit/decorators.js';
 import { CountryCard } from './country-card';
 
+@customElement('activity-item')
 export class ActivityItem extends LitElement {
-    @queryAssignedNodes() private assignedNodes: HTMLElement[];
-
     protected render(): TemplateResult {
-        return html`<slot @load="${(evt: Event) => this.onLoad(evt)}"></slot>`;
+        return html`<slot @svg-loaded="${(evt: CustomEvent) => this.onLoad(evt)}"></slot>`;
     }
 
-    private onLoad(evt: Event) {
-        const svg = evt.target as SVGElement;
+    private async onLoad(evt: CustomEvent): Promise<void> {
+        await this.updateComplete;
+        const svg = evt.detail.svg as SVGElement;
 
-        const countryCard: CountryCard = this.assignedNodes.find((el: HTMLElement) => el instanceof CountryCard) as CountryCard;
+        const countryCard: CountryCard = Array.from(this.children).find((el: HTMLElement) => el instanceof CountryCard) as CountryCard;
 
         svg.querySelectorAll('g[id], path[id]').forEach((countryElement: SVGElement) => {
             countryElement.addEventListener('click', () => {
@@ -21,5 +22,3 @@ export class ActivityItem extends LitElement {
         });
     }
 }
-
-customElements.define('activity-item', ActivityItem);

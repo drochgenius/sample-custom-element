@@ -1,4 +1,6 @@
-import { LitElement, css, CSSResult, html, property, TemplateResult, internalProperty } from 'lit-element';
+import { LitElement, css, html, TemplateResult } from 'lit';
+import { state, customElement, property } from 'lit/decorators.js';
+import { until } from 'lit/directives/until.js';
 
 export interface CountryLanguage {
     iso639_1: string;
@@ -36,107 +38,93 @@ export type CountryData = { [code: string]: CountryInfo };
  * @demo ./index.html
  */
 
+@customElement('country-card')
 export class CountryCard extends LitElement {
-    @property({ reflect: true }) code: string;
+    @property() code: string;
 
-    @internalProperty() private countryMap: SVGPathElement;
-    @internalProperty() private info: CountryInfo;
-    @internalProperty() private countryData: CountryData;
+    @state() private countryData: Promise<CountryData>;
 
-    public static get styles(): CSSResult {
-        return css`
-            :host {
-                border-radius: 0.25rem;
-                overflow: hidden;
-                margin: 0 1rem;
-                background-color: var(--color-grey-light-3);
-            }
-            figure {
-                background-color: var(--color-primary-light, lightskyblue);
-                margin: 0;
-                padding: 1rem;
-                display: grid;
-                grid-template-columns: auto 100px;
-            }
+    static styles = css`
+        :host {
+            border-radius: 0.25rem;
+            overflow: hidden;
+            margin: 0 1rem;
+            background-color: var(--color-grey-light-3);
+        }
+        figure {
+            background-color: var(--color-primary-light, lightskyblue);
+            margin: 0;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: auto 100px;
+        }
 
-            figcaption > h3 {
-                margin: 0;
-            }
+        figcaption > h3 {
+            margin: 0;
+        }
 
-            figcaption > p {
-                margin: 0;
-                color: rgb(0, 0, 200);
-            }
+        figcaption > p {
+            margin: 0;
+            color: rgb(0, 0, 200);
+        }
 
-            section {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                align-content: space-around;
-            }
+        section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-content: space-around;
+        }
 
-            section > * {
-                padding: 0.25rem 1rem;
-                border-top: 1px solid rgb(200, 200, 200);
-            }
+        section > * {
+            padding: 0.25rem 1rem;
+            border-top: 1px solid rgb(200, 200, 200);
+        }
 
-            label {
-                font-weight: bold;
-            }
+        label {
+            font-weight: bold;
+        }
 
-            img.flag {
-                width: 100px;
-                border: 1px solid rgb(200, 200, 200);
-            }
-        `;
-    }
+        img.flag {
+            width: 100px;
+            border: 1px solid rgb(200, 200, 200);
+        }
+    `;
 
     public constructor() {
         super();
-        this.loadCountryData();
-    }
-
-    protected shouldUpdate(changedProperties: Map<string, unknown>): boolean {
-        if (changedProperties.has('code')) {
-            this.computeCountryInfo();
-        }
-        return true;
+        this.countryData = this.loadCountryData();
     }
 
     protected render(): TemplateResult {
-        const { countryMap, info } = this;
-
-        if (info && info.code) {
-            return html`
-                <figure>
-                    <figcaption>
-                        <h3>${info.name}</h3>
-                        <p>${info.nativeName}</p>
-                    </figcaption>
-                    <img class="flag" src="http://flagpedia.net/data/flags/w1160/${info.code}.webp" />
-                </figure>
-                <section>
-                    <label>Region</label><span>${info.region}</span> <label>Sub-Region</label><span>${info.subregion}</span>
-                    <label>Population</label>
-                    <span>${new Intl.NumberFormat('en-US', { maximumSignificantDigits: 3 }).format(parseInt(info.population) / 1e6)} million</span>
-                    <label>People</label><span>${info.demonym}</span> <label>Languages</label
-                    ><span>${info.languages.map((lang: CountryLanguage) => lang.name).join(', ')}</span> <label>Capital City</label><span>${info.capital}</span>
-                </section>
-                <footer>
-                    <svg id="country-map">${countryMap}</svg>
-                </footer>
-            `;
-        }
-
-        return html``;
+        return html`${until(this.renderCountryInfo(this.code), html`xxx`)}`;
     }
 
-    private computeCountryInfo(): void {
-        if (this.code && this.countryData && this.countryData[this.code]) {
-            this.info = this.countryData[this.code];
-        }
+    private async renderCountryInfo(code: string): Promise<TemplateResult> {
+        console.log(code);
+        const info = await this.getCountryInfo(code);
+        return html`
+            <figure>
+                <figcaption>
+                    <h3>${info.name}</h3>
+                    <p>${info.nativeName}</p>
+                </figcaption>
+                <img class="flag" src="http://flagpedia.net/data/flags/w1160/${info.code}.webp" />
+            </figure>
+            <section>
+                <label>Region</label><span>${info.region}</span> <label>Sub-Region</label><span>${info.subregion}</span>
+                <label>Population</label>
+                <span>${new Intl.NumberFormat('en-US', { maximumSignificantDigits: 3 }).format(parseInt(info.population) / 1e6)} million</span>
+                <label>People</label><span>${info.demonym}</span> <label>Languages</label
+                ><span>${info.languages.map((lang: CountryLanguage) => lang.name).join(', ')}</span> <label>Capital City</label><span>${info.capital}</span>
+            </section>
+        `;
     }
 
-    private async loadCountryData(): Promise<void> {
+    private async getCountryInfo(code: string): Promise<CountryInfo> {
+        const data = await this.countryData;
+        return data[code];
+    }
+
+    private async loadCountryData(): Promise<CountryData> {
         const url = '/static/countries.json';
         const headers: { [key: string]: string } = { 'Content-Type': 'application/json' };
         const response: Response = await fetch(url, { headers });
@@ -149,12 +137,10 @@ export class CountryCard extends LitElement {
                 info.code = info.alpha2Code.toLowerCase();
                 countryData[info.code] = info;
             });
-            this.countryData = countryData;
-            this.computeCountryInfo();
+
+            return countryData;
         } else {
             throw new Error('unable to load country data');
         }
     }
 }
-
-customElements.define('country-card', CountryCard);

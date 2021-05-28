@@ -19,6 +19,7 @@
         "preserveConstEnums": true,
         "sourceMap": true,
         "pretty": true,
+        "useDefineForClassFields": false,
         "lib": ["esnext", "dom"]
     },
     "include": ["../src/**/*.ts"],
