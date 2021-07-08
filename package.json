@@ -1,5 +1,5 @@
 {
-    "name": "quote-of-the-day",
+    "name": "@hmh-cam/sample-custom-element",
     "private": true,
     "version": "1.0.0",
     "description": "Sample custom element for demo purpose",
