@@ -11,6 +11,11 @@ export const enum LoadingState {
     error = 'error',
 }
 
+/**
+ * This component is responsible for loading a SVG file into the web page
+ *
+ * @property {String} src - the path of the SVG file to load
+ */
 @customElement('svg-object')
 export class SVGObject extends LitElement {
     @property() src: string;

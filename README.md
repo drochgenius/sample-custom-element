@@ -1,4 +1,4 @@
-# Sample custom element with Lit-Element/Lit-HTML
+# Sample application using custom elements built with Lit
 
 ## Getting Started
 

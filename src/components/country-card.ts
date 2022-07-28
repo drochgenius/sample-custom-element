@@ -34,10 +34,10 @@ export interface CountryInfo {
 export type CountryData = { [code: string]: CountryInfo };
 
 /**
- * `<quote-of-the-day>`
- * @demo ./index.html
+ * This component is responsible for displaying informations for a given country
+ *
+ * @property {String} code - the ISO country code of the coutry for which to display infos.
  */
-
 @customElement('country-card')
 export class CountryCard extends LitElement {
     @property() code: string;
