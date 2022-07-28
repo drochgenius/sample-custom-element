@@ -10,7 +10,7 @@
         "lint": "eslint 'src/**/*.ts' --fix; prettier 'src/**/*.ts' --write",
         "build": "tsc -p src",
         "sass": "sass src/sass:dist/css",
-        "watch:sass": "npm run sass; npm run sass -- -w",
+        "watch:sass": "npm run sass -- -w",
         "watch:build": "tsc -p src -w",
         "watch": "npm-run-all -p watch:*"
     },
