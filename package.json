@@ -9,7 +9,7 @@
         "clean": "rm -rf node_modules dist package-lock.json",
         "lint": "eslint 'src/**/*.ts' --fix; prettier 'src/**/*.ts' --write",
         "build": "tsc -p src",
-        "sass": "node-sass src/sass/*.scss -o dist/css",
+        "sass": "sass src/sass:dist/css",
         "watch:sass": "npm run sass; npm run sass -- -w",
         "watch:build": "tsc -p src -w",
         "watch": "npm-run-all -p watch:*"
@@ -25,7 +25,7 @@
         "@typescript-eslint/parser": "latest",
         "es-dev-server": "latest",
         "eslint": "latest",
-        "node-sass": "latest",
+        "sass": "latest",
         "npm-run-all": "latest",
         "prettier": "latest",
         "typescript": "latest"
