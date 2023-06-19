@@ -40,7 +40,7 @@ export type CountryData = { [code: string]: CountryInfo };
  */
 @customElement('country-card')
 export class CountryCard extends LitElement {
-    @property() code: string;
+    @property({ reflect: true }) code: string;
 
     @state() private countryData: Promise<CountryData>;
 

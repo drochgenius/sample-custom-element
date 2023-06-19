@@ -25,9 +25,9 @@
         "@typescript-eslint/parser": "latest",
         "es-dev-server": "latest",
         "eslint": "latest",
-        "sass": "latest",
         "npm-run-all": "latest",
         "prettier": "latest",
+        "sass": "latest",
         "typescript": "latest"
     },
     "eslintConfig": {
